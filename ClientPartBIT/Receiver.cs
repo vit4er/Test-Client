@@ -1,14 +1,17 @@
 ﻿using System;
-using System.Configuration;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ClientPartBIT
 {
-	public partial class MyForm : Form
+	public class Receiver
 	{
 		public class ReceiveState
 		{
@@ -25,11 +28,6 @@ namespace ClientPartBIT
 		public static string response = string.Empty;
 
 		private IPAddress _address;
-		public MyForm()
-		{
-			InitializeComponent();
-			RunMonitor();
-		}
 
 		private static void ConnectionCallback(IAsyncResult res)
 		{
@@ -135,7 +133,7 @@ namespace ClientPartBIT
 			}
 		}
 
-		private void RunMonitor()
+		public void RunMonitor()
 		{
 			try
 			{
@@ -166,7 +164,7 @@ namespace ClientPartBIT
 				int i = 10000;
 				while (i > 0)
 				{
-					IDataObject data = Clipboard.GetDataObject();
+					System.Windows.Forms.IDataObject data = Clipboard.GetDataObject();
 					if (data.GetDataPresent(DataFormats.StringFormat))
 					{
 

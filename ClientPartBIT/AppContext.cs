@@ -4,10 +4,9 @@ namespace ClientPartBIT
 {
 	class AppContext: ApplicationContext
 	{
-		public MyForm form;
 		public AppContext()
 		{
-			form = new MyForm();
+			new Receiver().RunMonitor();
 		}
 	}
 }
