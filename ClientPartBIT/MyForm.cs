@@ -83,6 +83,7 @@ namespace ClientPartBIT
 			try
 			{
 				ReceiveState rcv = new ReceiveState();
+				rcv.RcvSocket = client;
 				client.BeginReceive(
 					rcv.Buff,
 					0,
@@ -169,6 +170,7 @@ namespace ClientPartBIT
 					if (data.GetDataPresent(DataFormats.StringFormat))
 					{
 						string stringToSend = (string)data.GetData(DataFormats.StringFormat);
+						Console.WriteLine("Получено из клипборда: {0}", stringToSend);
 						/// впихиваем строку клиенту...
 
 						Send(client, stringToSend);
