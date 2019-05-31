@@ -55,7 +55,7 @@ namespace ClientPartBIT
 				Console.WriteLine("Sent {0} bytes to server!", bytesSent);
 				SendDone.Set();
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				Console.WriteLine(ex);
 			}
@@ -73,7 +73,7 @@ namespace ClientPartBIT
 					new AsyncCallback(SendCallback),
 					client);
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				Console.WriteLine(ex);
 			}
@@ -93,7 +93,7 @@ namespace ClientPartBIT
 					rcv
 				);
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				Console.WriteLine(ex);
 			}
@@ -129,7 +129,7 @@ namespace ClientPartBIT
 					ReceiveDone.Set();
 				}
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				Console.WriteLine(ex);
 			}
@@ -163,15 +163,20 @@ namespace ClientPartBIT
 					new AsyncCallback(ConnectionCallback),
 					client);
 				ConnectionDone.WaitOne();
-
-				while (true)
+				int i = 1000;
+				while (i > 0)
 				{
 					IDataObject data = Clipboard.GetDataObject();
 					if (data.GetDataPresent(DataFormats.StringFormat))
 					{
+
+
+
 						string stringToSend = (string)data.GetData(DataFormats.StringFormat);
 						Console.WriteLine("Получено из клипборда: {0}", stringToSend);
-						/// впихиваем строку клиенту...
+						//
+						Clipboard.Clear();
+						/// строку клиенту...
 
 						Send(client, stringToSend);
 						SendDone.WaitOne();
@@ -180,14 +185,17 @@ namespace ClientPartBIT
 						ReceiveDone.WaitOne();
 
 						Console.WriteLine("Получен ответ: {0}", response);
+						///
+						/// разорвать цикл
+						/// 
 
-						client.Shutdown(SocketShutdown.Both);
-						client.Disconnect(true);
-
-						break;
+						//break;
 					}
 					Thread.Sleep(1000);
+					i--;
 				}
+				client.Shutdown(SocketShutdown.Both);
+				client.Disconnect(true);
 				client.Close();
 				client.Dispose();
 			}
