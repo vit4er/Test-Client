@@ -163,7 +163,7 @@ namespace ClientPartBIT
 					new AsyncCallback(ConnectionCallback),
 					client);
 				ConnectionDone.WaitOne();
-				int i = 1000;
+				int i = 10000;
 				while (i > 0)
 				{
 					IDataObject data = Clipboard.GetDataObject();
